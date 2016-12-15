@@ -3,7 +3,8 @@
 # Import the required modules
 import getopt
 
-import cv2, os
+import cv2
+import os
 import numpy as np
 import sys
 from PIL import Image
@@ -57,7 +58,7 @@ def get_images_and_labels(path):
             #labels.append(nbr)
             cv2.imshow("Training image...", image[y: y + h, x: x + w])
             cv2.waitKey(50)
-            recognizer.train(images, np.array(labels))
+            recognizer.update([image[y: y + h, x: x + w], ], np.array(nbr))
     # return the images list and labels list
     return images, labels
 
@@ -68,15 +69,12 @@ path = './codegile_faces'
 images, labels = get_images_and_labels(path)
 cv2.destroyAllWindows()
 
-# Perform the tranining
-recognizer.train(images, np.array(labels))
-
+recognizer.save('./saved_recognizer.xml')
 # Append the images with the extension .test into image_paths
 image_paths = [os.path.join(path, f) for f in os.listdir(path) if f.endswith(test_termination)]
 for image_path in image_paths:
     predict_image_pil = Image.open(image_path).convert('L')
     predict_image = np.array(predict_image_pil, 'uint8')
-    #faces = faceCascade.detectMultiScale(predict_image)
     faces = detect(predict_image, cascade)
     for (x, y, w, h) in faces:
         nbr_predicted, conf = recognizer.predict(predict_image[y: y + h, x: x + w])
