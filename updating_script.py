@@ -69,7 +69,9 @@ path = './codegile_faces'
 images, labels = get_images_and_labels(path)
 cv2.destroyAllWindows()
 
-recognizer.save('./saved_recognizer.xml')
+recognizer.save('saved_recognizer.xml')
+recognizer = cv2.createLBPHFaceRecognizer()
+recognizer.load('saved_recognizer.xml')
 # Append the images with the extension .test into image_paths
 image_paths = [os.path.join(path, f) for f in os.listdir(path) if f.endswith(test_termination)]
 for image_path in image_paths:
