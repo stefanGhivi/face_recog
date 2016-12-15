@@ -50,13 +50,14 @@ def get_images_and_labels(path):
         nbr = int(os.path.split(image_path)[1].split(".")[0].replace("subject_", ""))
         # Detect the face in the image
         #////////faces = faceCascade.detectMultiScale(image)
-        faces = detect(image,cascade)
+        faces = detect(image, cascade)
         # If face is detected, append the face to images and the label to labels
         for (x, y, w, h) in faces:
-            images.append(image[y: y + h, x: x + w])
-            labels.append(nbr)
-            cv2.imshow("Adding faces to traning set...", image[y: y + h, x: x + w])
+            #images.append(image[y: y + h, x: x + w])
+            #labels.append(nbr)
+            cv2.imshow("Training image...", image[y: y + h, x: x + w])
             cv2.waitKey(50)
+            recognizer.train(images, np.array(labels))
     # return the images list and labels list
     return images, labels
 
