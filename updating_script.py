@@ -86,6 +86,7 @@ for image_path in image_paths:
             cv2.imshow("Recognizing Face", predict_image[y: y + h, x: x + w])
             cv2.waitKey(1000)
         else:
+
             print "{} is Incorrect Recognized as {}".format(nbr_actual, nbr_predicted)
 
 
