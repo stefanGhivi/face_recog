@@ -1,14 +1,21 @@
+import base64
+
 from tinydb import TinyDB
 
 from Photo import Photo
 
 db = TinyDB('db.json')
-db.purge()
 
 
 def create(photo):
-    inserted = db.insert({'name': photo.name, 'photo': photo.photo})
+    import base64
+    str=''
+    with open("test_folder/test_image1.png", "rb") as imageFile:
+        str = base64.b64encode(imageFile.read())
+
+    inserted = db.insert({'name': photo.name, 'photo': str})
     print ("Photo inserted: \n{0}\n".format(db.get(eid=inserted)))
+
     return inserted
 
 
@@ -30,9 +37,9 @@ def delete(photo_id):
     photo = db.remove(eids=[photo_id])
     print ("Photo removed:\n{}\n".format(photo))
 
-
-pid = create(Photo(0, 'name', 'photo'))
-update(pid, Photo(1, 'UpdatedName', "UpdatedPhoto"))
-print ("Read photo:\n{}\n".format(read(pid)))
-delete(pid)
-print ("Read photo:\n{}\n".format(read(pid)))
+#
+# pid = create(Photo(0, 'name', 'photo'))
+# update(pid, Photo(1, 'UpdatedName', "UpdatedPhoto"))
+# print ("Read photo:\n{}\n".format(read(pid)))
+# delete(pid)
+# print ("Read photo:\n{}\n".format(read(pid)))
